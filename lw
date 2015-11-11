@@ -1,0 +1,68 @@
+#! /bin/bash
+
+if [ $# -gt 0 ]; then
+    vimcmd=$1;
+else 
+    vimcmd='yiW';
+fi;
+
+if [ $# -gt 1 ]; then
+    histcount=$2;
+else 
+    histcount=1;
+fi;
+
+tmpdir=$(mktemp -dt "$(basename $0).XXXXXXXXXX");
+
+
+if [ $LW_PROMPT ]; then 
+    prompt=$LW_PROMPT;
+else 
+    prompt="^[^\\\$]*\\\$";
+fi;
+
+if [ $LW_HISTORY ]; then
+    histfile=$LW_HISTORY;
+else
+    histfile=`echo ~/.bash_history`;
+fi;
+
+tmux capture-pane; 
+
+# find the bottom-most line with text 
+# (the command launching this script) 
+echo "G\$?^\w" > $tmpdir/vim_script;
+
+# grab history up to specified time
+tail -$histcount $histfile | cat -n | sort -nr | \
+(while read line; 
+ do 
+    cmdtofind=`echo $line | cut -d ' ' -f 2-`;
+    printf "? $cmdtofind\n" >> $tmpdir/vim_script; 
+ done;
+);
+
+# select and cut the command output of this command 
+printf "j0v/$prompt\nk\$x\n" >> $tmpdir/vim_script;
+
+# replace the rest of the file with it 
+printf "gg0VGp\n" >> $tmpdir/vim_script;
+
+# go to end
+echo "Gdd\$" >> $tmpdir/vim_script;
+
+# execute the movement, then replace the whole
+# file with the contents of "0 
+printf "${vimcmd}gg0VGp\n" >> $tmpdir/vim_script;
+
+# save the file
+echo ":w $tmpdir/vim_output" >> $tmpdir/vim_script;
+echo ":q!" >> $tmpdir/vim_script;
+
+# now: for the real work. 
+tmux save-buffer $tmpdir/cmd_output;
+vim -s $tmpdir/vim_script $tmpdir/cmd_output >/dev/null 2>&1;
+
+# did we get something good?  I hope so.
+cat $tmpdir/vim_output;
+rm -rf $tmpdir;
