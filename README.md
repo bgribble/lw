@@ -1,13 +1,11 @@
-lw -- get the last word using Vim motions
------------------------------------------------------
+## lw -- get the last word using Vim motions
 
 lw is a small Bash script I put together to (1) help with my Vim
 motion skills, and (2) do something I want to do a lot: paste a
 fragment of a previous command's console output into a command
 line I'm typing. 
 
-Usage
-=============
+### Usage
 
 `lw <vimkeys> <history-offset-count>`
 
@@ -40,8 +38,7 @@ $ ./lw ?RE\\nyiW
 README.md
 ```
 
-Configuration
-=============
+### Configuration
 
 Configuration is via environment variables:
 
@@ -51,8 +48,7 @@ Configuration is via environment variables:
 | LW_HISTORY | `~/.bash_history` | Bash history file | 
 
 
-Caveats 
-=============
+### Caveats 
 
  * You have to be running `tmux`, otherwise grabbing
    the console output history without rerunning the last command is
