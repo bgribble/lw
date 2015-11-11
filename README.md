@@ -9,11 +9,11 @@ line I'm typing.
 
 `lw <vimkeys> <history-offset-count>`
 
-Given a Vim Golf-style sequence of keypresses (by default,
-`yiW`), `lw` looks at the console output of a previous command
-(by default, the last one), executes the Vim keypresses against
-the console output of that command, then prints the contents of
-"0 (the yank register).
+Given a Vim Golf-style sequence of keypresses as `<vimkeys>` (by
+default, `yiW`), `lw` looks at the console output of a previous
+command (by default, the last one), executes the Vim keypresses
+against the console output of that command, then prints the
+contents of "0 (the yank register).
 
 The cursor is positioned at G$ (end of last line) to start. 
 
@@ -28,13 +28,16 @@ $ git status
 On branch feature/rev-proxy-support
 Your branch is up-to-date with 'origin/feature/rev-proxy-support'.
 nothing to commit, working directory clean
-$ lw gg\$yiW
+$ lw 'gg$yiW'
 feature/rev-proxy-support
+$ git checkout master
+$ git merge `lw 'gg$yiW' 3`
+[... git output ...]
 $ ls -l
 total 16
 -rw-r--r--  1 grib  staff  1811 Nov 11 13:47 README.md
 -rwxr-xr-x  1 grib  staff  1445 Nov 11 13:48 lw
-$ ./lw ?RE\\nyiW
+$ ./lw '?RE\nyiW'
 README.md
 ```
 
@@ -66,8 +69,7 @@ Configuration is via environment variables:
    passed through shell's "printf" so you can embed things like
    `\n` and `\022` (Ctrl-R, which is handy at times), but first
    your shell will try to expand `\` escapes so you need to put
-   another `\` in front of your printf `\`.  Also, `$` needs to
-   be escaped so Bash doesn't think it's a variable reference. 
-
+   another `\` in front of your printf `\` or enclose the whole
+   thing in `''` (which I have done above).  Same for `$`.
 
 
