@@ -17,10 +17,10 @@ cut-n-paste.  It will sharpen up your vim-fu though.
 
 Given a Vim Golf-style sequence of keypresses as `<vimkeys>` (by
 default, `yiW`), `lw` looks at the console output of a previous
-command (back `<history-offset-count>` commands, by default 1
-[the previous command]), executes the Vim keypresses against the
-console output of that command, then prints the contents of `"0`
-(the yank register).
+command (going back `<history-offset-count>` commands, by default
+1), executes the Vim keypresses against the console output of
+that command, then prints the contents of `"0` (the yank
+register).
 
 The cursor is positioned at G$ (end of last line) to start. 
 
@@ -86,4 +86,4 @@ Configuration is via environment variables:
 
 ### Blame
 
-Bill Gribbl `<grib@billgribble.com>`
+Bill Gribble `<grib@billgribble.com>`
