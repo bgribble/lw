@@ -1,12 +1,15 @@
 ## lw -- get the last word using Vim motions
 
-lw is a small Bash script I put together to (1) help practice my Vim
-motion skills, and (2) do something I want to do a lot: paste a
-fragment of a previous command's console output into a command
+lw is a small Bash script I put together to (1) help practice my
+Vim motion skills, and (2) do something I want to do a lot: paste
+a fragment of a previous command's console output into a command
 line I'm typing. 
 
 It requires Vim (no particular version), tmux (no particular
 version) and bash. 
+
+Note: not intended to be actually more efficient than
+cut-n-paste.  It will sharpen up your vim-fu though. 
 
 ### Usage
 
@@ -36,7 +39,7 @@ $ ./lw '?RE\nyiW'
 README.md
 ```
 
-And here's the one more like what I actually want to use: 
+And here's one more like my actual use case: 
 
 ```
 $ git status
@@ -81,3 +84,6 @@ Configuration is via environment variables:
    thing in `''` (which I have done above).  Same for `$`.
 
 
+### Blame
+
+Bill Gribbl `<grib@billgribble.com>`
