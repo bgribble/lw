@@ -1,9 +1,12 @@
 ## lw -- get the last word using Vim motions
 
-lw is a small Bash script I put together to (1) help with my Vim
+lw is a small Bash script I put together to (1) help practice my Vim
 motion skills, and (2) do something I want to do a lot: paste a
 fragment of a previous command's console output into a command
 line I'm typing. 
+
+It requires Vim (no particular version), tmux (no particular
+version) and bash. 
 
 ### Usage
 
@@ -11,9 +14,10 @@ line I'm typing.
 
 Given a Vim Golf-style sequence of keypresses as `<vimkeys>` (by
 default, `yiW`), `lw` looks at the console output of a previous
-command (by default, the last one), executes the Vim keypresses
-against the console output of that command, then prints the
-contents of "0 (the yank register).
+command (back `<history-offset-count>` commands, by default 1
+[the previous command]), executes the Vim keypresses against the
+console output of that command, then prints the contents of `"0`
+(the yank register).
 
 The cursor is positioned at G$ (end of last line) to start. 
 
@@ -24,6 +28,17 @@ $ lw
 2015
 $ lw 3ByiW 2
 11:38:48
+$ ls -l
+total 16
+-rw-r--r--  1 grib  staff  1811 Nov 11 13:47 README.md
+-rwxr-xr-x  1 grib  staff  1445 Nov 11 13:48 lw
+$ ./lw '?RE\nyiW'
+README.md
+```
+
+And here's the one more like what I actually want to use: 
+
+```
 $ git status
 On branch feature/rev-proxy-support
 Your branch is up-to-date with 'origin/feature/rev-proxy-support'.
@@ -32,13 +47,6 @@ $ lw 'gg$yiW'
 feature/rev-proxy-support
 $ git checkout master
 $ git merge `lw 'gg$yiW' 3`
-[... git output ...]
-$ ls -l
-total 16
--rw-r--r--  1 grib  staff  1811 Nov 11 13:47 README.md
--rwxr-xr-x  1 grib  staff  1445 Nov 11 13:48 lw
-$ ./lw '?RE\nyiW'
-README.md
 ```
 
 ### Configuration
