@@ -52,6 +52,13 @@ $ git checkout master
 $ git merge `lw 'gg$yiW' 3`
 ```
 
+If you prefer to use a pipe instead of history, pass `-` as the history count: 
+
+```
+$ ls -l | lw yiW - 
+lw
+```
+
 ### Configuration
 
 Configuration is via environment variables:
@@ -61,6 +68,22 @@ Configuration is via environment variables:
 | LW_PROMPT | `^[^\$]*$` | Regex matching prompt string |
 | LW_HISTORY | `~/.bash_history` | Bash history file | 
 
+### Bash history setup 
+
+By default your ~/.bash_history is not written until you close the terminal. 
+That's pretty useless!  Add these lines to your ~/.bash_profile or equivalent: 
+```
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
+
+# Save and reload the history after each command finishes
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+```
+
+Thanks to  http://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
+for the tip. 
 
 ### Caveats 
 
